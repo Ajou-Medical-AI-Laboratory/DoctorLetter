@@ -1,0 +1,113 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1777349029522,
+  "projectRoot": "/Users/hwangsang-ik/Downloads/App-main",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "vite",
+        "version": "6.3.5",
+        "category": "build"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "npm run build",
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": "npm run dev",
+    "scripts": {
+      "build": "vite build",
+      "dev": "vite"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": true,
+    "workspaces": [],
+    "mainDirectories": [
+      "src"
+    ],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "guidelines": {
+      "path": "guidelines",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1777349029491,
+      "keyFiles": [
+        "Guidelines.md"
+      ]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 2,
+      "lastAccessed": 1777349029493,
+      "keyFiles": [
+        "main.tsx"
+      ]
+    },
+    "src/app": {
+      "path": "src/app",
+      "purpose": "Application code",
+      "fileCount": 1,
+      "lastAccessed": 1777349029505,
+      "keyFiles": [
+        "App.tsx"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "src/app/components/HealthInsights.tsx",
+      "accessCount": 9,
+      "lastAccessed": 1777351373035,
+      "type": "directory"
+    },
+    {
+      "path": "src/app/components/DocumentArchive.tsx",
+      "accessCount": 5,
+      "lastAccessed": 1777352412108,
+      "type": "file"
+    },
+    {
+      "path": "src/app/components/Home.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1777351857814,
+      "type": "file"
+    },
+    {
+      "path": "src/app/App.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1777351820483,
+      "type": "file"
+    },
+    {
+      "path": "src/app/components/Login.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1777351465688,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}
