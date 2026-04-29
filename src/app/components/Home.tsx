@@ -99,9 +99,8 @@ export function Home({ onNavigate, userTier }: HomeProps) {
               </div>
             </div>
           </button>
-        </div>
 
-                  {/* Medication Card */}
+          {/* Medication Card */}
           <button
             onClick={() => onNavigate('medication')}
             className="w-full bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all border-2 border-transparent hover:border-green-400 text-left"
@@ -124,6 +123,7 @@ export function Home({ onNavigate, userTier }: HomeProps) {
               </div>
             </div>
           </button>
+        </div>
 
         {/* Help Section */}
         <div className="max-w-2xl mx-auto mt-12 bg-blue-50 rounded-2xl p-6 border border-blue-200">
