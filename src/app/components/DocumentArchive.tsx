@@ -5,7 +5,7 @@ interface DocumentArchiveProps {
   onBack: () => void;
 }
 
-type ViewMode = 'time' | 'disease' | 'type';
+type ViewMode = 'time' | 'type';
 
 interface Doc {
   id: number;
@@ -27,7 +27,7 @@ const initialDocs: Doc[] = [
   {
     id: 1,
     title: '유방 조직 검사 결과지',
-    type: '병리',
+    type: '조직 검사 결과지',
     disease: '유방암',
     date: '2026.04.15',
     icon: FlaskConical,
@@ -45,7 +45,7 @@ const initialDocs: Doc[] = [
     ],
   },
   {
-    id: 2, title: '혈액검사 (CBC)', type: '혈액', disease: '유방암', date: '2026.04.10',
+    id: 2, title: '혈액검사 (CBC)', type: '기능 검사', disease: '유방암', date: '2026.04.10',
     icon: FlaskConical, color: 'bg-red-100 text-red-600',
     hospital: '서울대학교병원', doctor: '김지훈 (진단검사의학과)',
     ocrText: 'WBC: 6.2 (10³/μL)\nHb: 13.1 (g/dL)\nPLT: 245 (10³/μL)\nANC: 3.8 (10³/μL)\nLymph: 2.1 (10³/μL)',
@@ -64,14 +64,14 @@ const initialDocs: Doc[] = [
     aiSummary: '호르몬 양성 유방암 표준 치료제입니다. 보통 5년 이상 복용하며, 정기 검진과 부작용 모니터링이 필요합니다.',
   },
   {
-    id: 4, title: '유방 MRI 영상 판독지', type: '영상 판독지', disease: '유방암', date: '2026.03.28',
+    id: 4, title: '유방 MRI 영상 판독지', type: 'MRI 영상 판독지', disease: '유방암', date: '2026.03.28',
     icon: ImageIcon, color: 'bg-blue-100 text-blue-600',
     hospital: '서울대학교병원', doctor: '정수민 (영상의학과)',
     ocrText: '소견: 우측 유방 외상부에 약 2.3cm 크기의 종괴 관찰\n악성 소견 의심 (BI-RADS 5)\n림프절 전이 소견 없음\n반대측 유방 정상',
     aiSummary: '오른쪽 유방에 2.3cm 크기의 종양이 발견되었습니다. 영상 검사상 악성 가능성이 높아 조직검사가 필요합니다. 다행히 림프절로의 전이는 보이지 않습니다.',
   },
   {
-    id: 5, title: '종양표지자 (CA 15-3, CEA)', type: '혈액', disease: '유방암', date: '2026.03.20',
+    id: 5, title: '종양표지자 (CA 15-3, CEA)', type: '종양표지자', disease: '유방암', date: '2026.03.20',
     icon: FlaskConical, color: 'bg-red-100 text-red-600',
     hospital: '서울대학교병원',
     ocrText: 'CA 15-3: 18.5 U/mL (정상 < 25)\nCEA: 2.1 ng/mL (정상 < 5)',
@@ -89,21 +89,21 @@ const initialDocs: Doc[] = [
     aiSummary: '유방암(침윤성 유관암) 공식 진단서입니다. 암 보험 청구나 산정특례 신청에 사용할 수 있습니다.',
   },
   {
-    id: 7, title: '건강검진 종합 결과', type: '건강검진', disease: '일반', date: '2026.02.10',
+    id: 7, title: '건강검진 종합 결과', type: '기능 검사', disease: '일반', date: '2026.02.10',
     icon: FileBarChart, color: 'bg-amber-100 text-amber-600',
     hospital: '강남세브란스 검진센터',
     ocrText: '신장: 165cm, 체중: 58kg, BMI: 21.3\n혈압: 118/76\n공복혈당: 92\n간기능 (AST/ALT): 24/22\n콜레스테롤: 185',
     aiSummary: '전반적으로 건강한 상태입니다. 모든 수치가 정상 범위에 있어 큰 문제는 없습니다.',
   },
   {
-    id: 8, title: '갑상선 초음파', type: '영상 판독지', disease: '갑상선', date: '2026.01.22',
+    id: 8, title: '갑상선 초음파', type: '초음파', disease: '갑상선', date: '2026.01.22',
     icon: ImageIcon, color: 'bg-blue-100 text-blue-600',
     hospital: '서울대학교병원', doctor: '정수민 (영상의학과)',
     ocrText: '갑상선 우엽에 0.5cm 결절\nTI-RADS 3 (양성 가능성 높음)\n경과 관찰 권장',
     aiSummary: '갑상선에 작은 결절이 있지만 양성일 가능성이 높습니다. 6개월~1년 후 재검을 권장합니다.',
   },
   {
-    id: 9, title: '갑상선 기능 검사 (TSH, T4)', type: '혈액', disease: '갑상선', date: '2026.01.22',
+    id: 9, title: '갑상선 기능 검사 (TSH, T4)', type: '기능 검사', disease: '갑상선', date: '2026.01.22',
     icon: FlaskConical, color: 'bg-red-100 text-red-600',
     hospital: '서울대학교병원',
     ocrText: 'TSH: 2.1 mIU/L (정상)\nFree T4: 1.3 ng/dL (정상)\nFree T3: 3.2 pg/mL (정상)',
@@ -115,14 +115,12 @@ const initialDocs: Doc[] = [
   },
 ];
 
-const diseases = ['전체', '유방암', '갑상선', '일반'];
-const types = ['전체', '진단서', '병리', '혈액', '영상 판독지', '처방전', '건강검진'];
+const types = ['전체', '진단서', '조직 검사 결과지', '종양표지자', 'MRI 영상 판독지', '초음파', '기능 검사', '처방전'];
 const periods = ['전체', '최근 1개월', '최근 3개월', '최근 6개월', '최근 1년'];
 
 export function DocumentArchive({ onBack }: DocumentArchiveProps) {
   const [docs, setDocs] = useState<Doc[]>(initialDocs);
-  const [viewMode, setViewMode] = useState<ViewMode>('disease');
-  const [filterDisease, setFilterDisease] = useState('전체');
+  const [viewMode, setViewMode] = useState<ViewMode>('type');
   const [filterType, setFilterType] = useState('전체');
   const [filterPeriod, setFilterPeriod] = useState('최근 6개월');
   const [search, setSearch] = useState('');
@@ -135,13 +133,12 @@ export function DocumentArchive({ onBack }: DocumentArchiveProps) {
   const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
 
   const filtered = docs.filter(d => {
-    if (filterDisease !== '전체' && d.disease !== filterDisease) return false;
     if (filterType !== '전체' && d.type !== filterType) return false;
     if (search && !d.title.includes(search)) return false;
     return true;
   });
 
-  const groupKey = viewMode === 'disease' ? 'disease' : viewMode === 'type' ? 'type' : null;
+  const groupKey = viewMode === 'type' ? 'type' : null;
   const grouped: Record<string, Doc[]> = {};
   if (groupKey) {
     filtered.forEach(d => {
@@ -184,7 +181,9 @@ export function DocumentArchive({ onBack }: DocumentArchiveProps) {
             <h4 className="font-bold text-sm text-gray-900 truncate">{doc.title}</h4>
             <div className="flex items-center gap-2 mt-1.5 flex-wrap">
               <span className="text-[10px] px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full">{doc.type}</span>
-              <span className="text-[10px] px-2 py-0.5 bg-blue-50 text-blue-600 rounded-full">{doc.disease}</span>
+              {doc.disease && doc.disease !== '일반' && (
+                <span className="text-[10px] text-blue-600">#{doc.disease}</span>
+              )}
               <span className="text-[10px] text-gray-400">· {doc.date}</span>
             </div>
             {doc.memo && (
@@ -262,7 +261,6 @@ export function DocumentArchive({ onBack }: DocumentArchiveProps) {
           {/* 보기 방식 토글 */}
           <div className="bg-white rounded-xl p-1.5 mb-4 flex gap-1 shadow-sm border border-gray-200">
             {[
-              { key: 'disease' as const, label: '질병별', icon: '🏥' },
               { key: 'type' as const, label: '검사종류별', icon: '📄' },
               { key: 'time' as const, label: '시간순', icon: '🕐' },
             ].map(({ key, label, icon }) => (
@@ -286,9 +284,9 @@ export function DocumentArchive({ onBack }: DocumentArchiveProps) {
             <div className="flex items-center gap-2">
               <Filter className="w-4 h-4 text-gray-600" />
               <span className="text-sm font-medium text-gray-700">필터</span>
-              {(filterDisease !== '전체' || filterType !== '전체') && (
+              {filterType !== '전체' && (
                 <span className="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">
-                  {[filterDisease, filterType].filter(f => f !== '전체').length}개 적용
+                  1개 적용
                 </span>
               )}
             </div>
@@ -297,14 +295,6 @@ export function DocumentArchive({ onBack }: DocumentArchiveProps) {
 
           {showFilters && (
             <div className="bg-white rounded-xl p-4 mb-4 shadow-sm border border-gray-200 space-y-3">
-              <div>
-                <label className="text-xs font-bold text-gray-500 mb-2 block">🏥 질병</label>
-                <div className="flex flex-wrap gap-2">
-                  {diseases.map(d => (
-                    <button key={d} onClick={() => setFilterDisease(d)} className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${filterDisease === d ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>{d}</button>
-                  ))}
-                </div>
-              </div>
               <div>
                 <label className="text-xs font-bold text-gray-500 mb-2 block">📄 검사 종류</label>
                 <div className="flex flex-wrap gap-2">
@@ -337,7 +327,7 @@ export function DocumentArchive({ onBack }: DocumentArchiveProps) {
                   {viewMode !== 'time' && (
                     <div className="flex items-center justify-between mb-2 px-1">
                       <h3 className="text-sm font-bold text-gray-700">
-                        {viewMode === 'disease' ? '🏥' : '📄'} {groupName}
+                        📄 {groupName}
                       </h3>
                       <span className="text-xs text-gray-400">{docList.length}개</span>
                     </div>
@@ -470,14 +460,15 @@ export function DocumentArchive({ onBack }: DocumentArchiveProps) {
                 />
               </div>
               <div>
-                <label className="text-xs font-bold text-gray-500 mb-2 block">🏥 질병</label>
-                <div className="flex flex-wrap gap-2">
-                  {diseases.filter(d => d !== '전체').map(d => (
-                    <button key={d} onClick={() => setEditDoc({ ...editDoc, disease: d })} className={`px-3 py-1.5 rounded-full text-xs font-medium ${editDoc.disease === d ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600'}`}>
-                      {editDoc.disease === d && <Check className="w-3 h-3 inline mr-1" />}{d}
-                    </button>
-                  ))}
-                </div>
+                <label className="text-xs font-bold text-gray-500 mb-2 block">🏷️ 질병 태그</label>
+                <input
+                  type="text"
+                  value={editDoc.disease}
+                  onChange={(e) => setEditDoc({ ...editDoc, disease: e.target.value })}
+                  placeholder="예: 유방암, 갑상선, 일반"
+                  className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-blue-400"
+                />
+                <p className="text-[10px] text-gray-400 mt-1">백엔드 연동 시 AI가 자동 분류합니다</p>
               </div>
               <div>
                 <label className="text-xs font-bold text-gray-500 mb-2 block">📄 검사 종류</label>
