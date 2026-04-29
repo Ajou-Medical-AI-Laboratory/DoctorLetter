@@ -62,30 +62,6 @@ export function Home({ onNavigate, userTier }: HomeProps) {
             </div>
           </button>
 
-          {/* Medication Card */}
-          <button
-            onClick={() => onNavigate('medication')}
-            className="w-full bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all border-2 border-transparent hover:border-green-400 text-left"
-          >
-            <div className="flex items-start gap-6">
-              <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center flex-shrink-0">
-                <Pill className="w-8 h-8 text-green-600" />
-              </div>
-              <div className="flex-1">
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">복약 알림</h2>
-                <p className="text-lg text-gray-600 leading-relaxed">
-                  처방전을 촬영하면 자동으로<br />
-                  약 먹을 시간을 알려드려요
-                </p>
-                <div className="mt-3">
-                  <span className="inline-block bg-green-100 text-green-700 px-4 py-1.5 rounded-full text-sm font-medium">
-                    알림 켜짐
-                  </span>
-                </div>
-              </div>
-            </div>
-          </button>
-
           {/* Trend Analysis Card */}
           <button
             onClick={() => onNavigate('result')}
@@ -124,6 +100,30 @@ export function Home({ onNavigate, userTier }: HomeProps) {
             </div>
           </button>
         </div>
+
+                  {/* Medication Card */}
+          <button
+            onClick={() => onNavigate('medication')}
+            className="w-full bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all border-2 border-transparent hover:border-green-400 text-left"
+          >
+            <div className="flex items-start gap-6">
+              <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center flex-shrink-0">
+                <Pill className="w-8 h-8 text-green-600" />
+              </div>
+              <div className="flex-1">
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">복약 알림</h2>
+                <p className="text-lg text-gray-600 leading-relaxed">
+                  처방전을 촬영하면 자동으로<br />
+                  약 먹을 시간을 알려드려요
+                </p>
+                <div className="mt-3">
+                  <span className="inline-block bg-green-100 text-green-700 px-4 py-1.5 rounded-full text-sm font-medium">
+                    알림 켜짐
+                  </span>
+                </div>
+              </div>
+            </div>
+          </button>
 
         {/* Help Section */}
         <div className="max-w-2xl mx-auto mt-12 bg-blue-50 rounded-2xl p-6 border border-blue-200">
