@@ -1,37 +1,28 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1777349029522,
-  "projectRoot": "/Users/hwangsang-ik/Downloads/App-main",
+  "lastScanned": 1778141887238,
+  "projectRoot": "/Users/hwangsang-ik/Downloads/Doctor_Letter",
   "techStack": {
     "languages": [
       {
-        "name": "JavaScript/TypeScript",
+        "name": "Java/Kotlin",
         "version": null,
         "confidence": "high",
         "markers": [
-          "package.json"
+          "build.gradle"
         ]
       }
     ],
-    "frameworks": [
-      {
-        "name": "vite",
-        "version": "6.3.5",
-        "category": "build"
-      }
-    ],
-    "packageManager": "npm",
+    "frameworks": [],
+    "packageManager": "gradle",
     "runtime": null
   },
   "build": {
-    "buildCommand": "npm run build",
+    "buildCommand": null,
     "testCommand": null,
     "lintCommand": null,
-    "devCommand": "npm run dev",
-    "scripts": {
-      "build": "vite build",
-      "dev": "vite"
-    }
+    "devCommand": null,
+    "scripts": {}
   },
   "conventions": {
     "namingStyle": null,
@@ -40,7 +31,7 @@
     "fileOrganization": null
   },
   "structure": {
-    "isMonorepo": true,
+    "isMonorepo": false,
     "workspaces": [],
     "mainDirectories": [
       "src"
@@ -49,65 +40,35 @@
   },
   "customNotes": [],
   "directoryMap": {
-    "guidelines": {
-      "path": "guidelines",
+    "build": {
+      "path": "build",
+      "purpose": "Build output",
+      "fileCount": 0,
+      "lastAccessed": 1778141887231,
+      "keyFiles": []
+    },
+    "gradle": {
+      "path": "gradle",
       "purpose": null,
-      "fileCount": 1,
-      "lastAccessed": 1777349029491,
-      "keyFiles": [
-        "Guidelines.md"
-      ]
+      "fileCount": 0,
+      "lastAccessed": 1778141887232,
+      "keyFiles": []
     },
     "src": {
       "path": "src",
       "purpose": "Source code",
-      "fileCount": 2,
-      "lastAccessed": 1777349029493,
-      "keyFiles": [
-        "main.tsx"
-      ]
+      "fileCount": 0,
+      "lastAccessed": 1778141887232,
+      "keyFiles": []
     },
-    "src/app": {
-      "path": "src/app",
-      "purpose": "Application code",
-      "fileCount": 1,
-      "lastAccessed": 1777349029505,
-      "keyFiles": [
-        "App.tsx"
-      ]
+    "src/test": {
+      "path": "src/test",
+      "purpose": "Test files",
+      "fileCount": 0,
+      "lastAccessed": 1778141887233,
+      "keyFiles": []
     }
   },
-  "hotPaths": [
-    {
-      "path": "src/app/components/HealthInsights.tsx",
-      "accessCount": 9,
-      "lastAccessed": 1777351373035,
-      "type": "directory"
-    },
-    {
-      "path": "src/app/components/DocumentArchive.tsx",
-      "accessCount": 5,
-      "lastAccessed": 1777352412108,
-      "type": "file"
-    },
-    {
-      "path": "src/app/components/Home.tsx",
-      "accessCount": 3,
-      "lastAccessed": 1777351857814,
-      "type": "file"
-    },
-    {
-      "path": "src/app/App.tsx",
-      "accessCount": 2,
-      "lastAccessed": 1777351820483,
-      "type": "file"
-    },
-    {
-      "path": "src/app/components/Login.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1777351465688,
-      "type": "file"
-    }
-  ],
+  "hotPaths": [],
   "userDirectives": []
 }
