@@ -1,0 +1,11 @@
+spring.application.name=Doctor_Letter
+
+# LAN(같은 와이파이)에서 접근 가능하게 0.0.0.0 바인딩
+server.address=0.0.0.0
+server.port=8080
+
+# 32바이트(256bit) 이상의 강한 비밀 키로 반드시 교체하세요.
+# 권장: 환경변수 JWT_SECRET을 설정하고 ${JWT_SECRET}이 자동 주입되게 두기.
+jwt.secret=${JWT_SECRET:CHANGE-ME-TO-A-STRONG-SECRET-AT-LEAST-32-CHARS-LONG-FOR-HMAC-SHA256}
+jwt.access-token-expiry=900000
+jwt.refresh-token-expiry=604800000
