@@ -1,16 +1,20 @@
 import { useState } from 'react';
 import { ArrowLeft, Check, Eye, EyeOff, X } from 'lucide-react';
+import { signUpApi } from '../api/member';
 
 interface SignupProps {
   onComplete: () => void;
   onBack: () => void;
 }
 
+const GENDER_TO_SEX: Record<string, string> = { male: 'M', female: 'F', other: 'O' };
+
 export function Signup({ onComplete, onBack }: SignupProps) {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     confirmPassword: '',
+    name: '',
     gender: '',
     age: '',
     disease: '',
@@ -19,6 +23,8 @@ export function Signup({ onComplete, onBack }: SignupProps) {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const [agreements, setAgreements] = useState({
     termsOfService: false,
     privacyPolicy: false,
@@ -33,12 +39,27 @@ export function Signup({ onComplete, onBack }: SignupProps) {
   };
 
   const isPasswordValid = Object.values(passwordRequirements).every(Boolean);
-  const isFormValid = formData.email && isPasswordValid && formData.password === formData.confirmPassword &&
+  const isFormValid = formData.email && formData.name && isPasswordValid && formData.password === formData.confirmPassword &&
     formData.gender && formData.age && formData.phone && agreements.termsOfService && agreements.privacyPolicy;
 
-  const handleSubmit = () => {
-    if (isFormValid) {
+  const handleSubmit = async () => {
+    if (!isFormValid || submitting) return;
+    setError('');
+    setSubmitting(true);
+    try {
+      await signUpApi({
+        userId: formData.email,
+        password: formData.password,
+        name: formData.name,
+        age: parseInt(formData.age, 10),
+        sex: GENDER_TO_SEX[formData.gender] ?? formData.gender,
+      });
+      // disease/phone/optionalEmail은 현재 백엔드 가입 API에 없어서 보내지 않음
       onComplete();
+    } catch (e: any) {
+      setError(e?.message || '회원가입에 실패했습니다.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -87,6 +108,20 @@ export function Signup({ onComplete, onBack }: SignupProps) {
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               placeholder="example@email.com"
+              className="w-full px-4 py-4 bg-gray-50 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none text-lg"
+            />
+          </div>
+
+          {/* Name */}
+          <div className="bg-white rounded-2xl p-6 shadow-md">
+            <label className="block text-sm font-bold text-gray-700 mb-3">
+              이름 <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              placeholder="홍길동"
               className="w-full px-4 py-4 bg-gray-50 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none text-lg"
             />
           </div>
@@ -269,13 +304,20 @@ export function Signup({ onComplete, onBack }: SignupProps) {
             </div>
           </div>
 
+          {/* Error */}
+          {error && (
+            <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-red-600 text-sm font-medium">
+              {error}
+            </div>
+          )}
+
           {/* Submit Button */}
           <button
             onClick={handleSubmit}
-            disabled={!isFormValid}
+            disabled={!isFormValid || submitting}
             className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold py-6 rounded-2xl text-xl shadow-lg transition-colors"
           >
-            회원가입 완료
+            {submitting ? '가입 중...' : '회원가입 완료'}
           </button>
         </div>
       </div>

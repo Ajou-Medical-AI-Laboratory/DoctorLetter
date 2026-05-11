@@ -1,36 +1,36 @@
 package Doctor_Letter.Doctor_Letter.member.control;
 
-import Doctor_Letter.Doctor_Letter.member.dto.MemberCreateRequestDto;
-import Doctor_Letter.Doctor_Letter.member.dto.MemberCreateResponseDto;
-import Doctor_Letter.Doctor_Letter.member.dto.MemberUpdateRequestDto;
-import Doctor_Letter.Doctor_Letter.member.dto.MemberUpdateResponseDto;
-import Doctor_Letter.Doctor_Letter.member.service.MemberDeleteRequestDto;
-import Doctor_Letter.Doctor_Letter.member.service.MemberDeleteResponseDto;
+import Doctor_Letter.Doctor_Letter.member.dto.*;
 import Doctor_Letter.Doctor_Letter.member.service.MemberService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("member")
-@AllArgsConstructor
+@RestController
+@RequiredArgsConstructor
 public class MemberControl {
 
     private final MemberService memberService;
 
-    //member Create
     @PostMapping("/create")
     public MemberCreateResponseDto createMember(@RequestBody MemberCreateRequestDto createRequestDto) {
         return memberService.createMember(createRequestDto);
     }
 
+    @GetMapping("/me")
+    public FindMemberResponseDto getMember(Authentication authentication) {
+        return memberService.getMember(authentication.getName());
+    }
+
     @DeleteMapping("/delete")
-    public MemberDeleteResponseDto deleteMember(@RequestBody MemberDeleteRequestDto deleteRequestDto) {
-        MemberDeleteResponseDto responseDto = memberService.deleteMember(deleteRequestDto);
-        return responseDto;
+    public MemberDeleteResponseDto deleteMember(Authentication authentication,
+                                                @RequestBody MemberDeleteRequestDto deleteRequestDto) {
+        return memberService.deleteMember(authentication.getName(), deleteRequestDto);
     }
 
     @PatchMapping("/update")
-    public MemberUpdateResponseDto updateMember(@RequestBody MemberUpdateRequestDto updateRequestDto) {
-        return memberService.updateResponseDto(updateRequestDto);
+    public MemberUpdateResponseDto updateMember(Authentication authentication,
+                                                @RequestBody MemberUpdateRequestDto updateRequestDto) {
+        return memberService.updateResponseDto(authentication.getName(), updateRequestDto);
     }
-
 }

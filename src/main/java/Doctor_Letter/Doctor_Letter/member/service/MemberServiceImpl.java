@@ -1,46 +1,102 @@
 package Doctor_Letter.Doctor_Letter.member.service;
 
-import Doctor_Letter.Doctor_Letter.member.dto.MemberCreateRequestDto;
-import Doctor_Letter.Doctor_Letter.member.dto.MemberCreateResponseDto;
-import Doctor_Letter.Doctor_Letter.member.dto.MemberUpdateRequestDto;
-import Doctor_Letter.Doctor_Letter.member.dto.MemberUpdateResponseDto;
+import Doctor_Letter.Doctor_Letter.auth.password.PasswordPolicyValidator;
+import Doctor_Letter.Doctor_Letter.member.domain.Member;
+import Doctor_Letter.Doctor_Letter.member.dto.*;
 import Doctor_Letter.Doctor_Letter.member.repository.MemberRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@AllArgsConstructor
+@Service
+@RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
-    private MemberRepository memberRepository;
-    private MemberCreateRequestDto createRequestDto;
-    private MemberCreateResponseDto createResponseDto;
-    private MemberUpdateRequestDto updateRequestDto;
-    private MemberUpdateResponseDto updateResponseDto;
+    private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
+    @Override
     @Transactional
-    @Autowired
     public MemberCreateResponseDto createMember(MemberCreateRequestDto createRequestDto) {
-        // 회원 생성 로직 구현
-        // 예: memberRepository.save(new Member(requestDto));
+        PasswordPolicyValidator.validate(createRequestDto.getPassword());
 
-        return createResponseDto; // 생성된 회원 정보를 반환
+        Member member = Member.builder()
+                .userId(createRequestDto.getUserId())
+                .password(passwordEncoder.encode(createRequestDto.getPassword()))
+                .sex(createRequestDto.getSex())
+                .name(createRequestDto.getName())
+                .age(createRequestDto.getAge())
+                .build();
+
+        Member saved = memberRepository.save(member);
+        return new MemberCreateResponseDto(saved.getUserId());
     }
 
+    @Override
     @Transactional
-    @Autowired
-    public MemberUpdateResponseDto updateResponseDto(MemberUpdateRequestDto updateRequestDto) {
-        // 회원 정보 업데이트 로직 구현
-        // 예: memberRepository.update(new Member(requestDto));
+    public FindMemberResponseDto getMember(String userId) {
+        Member member = memberRepository.findByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("회원이 존재하지 않습니다."));
 
-        return updateResponseDto; // 업데이트된 회원 정보를 반환
+        return new FindMemberResponseDto(
+                member.getUserId(),
+                member.getName(),
+                member.getAge(),
+                member.getSex(),
+                member.getSpecificity_disease()
+        );
     }
 
+    @Override
     @Transactional
-    @Autowired
-    public MemberDeleteResponseDto deleteMember(MemberDeleteRequestDto deleteRequestDto) {
-        // 회원 삭제 로직 구현
-        // 예: memberRepository.deleteById(userId);
-        return new MemberDeleteResponseDto("회원 삭제 완료"); // 삭제된 회원 ID를 반환
+    public MemberUpdateResponseDto updateResponseDto(String userId, MemberUpdateRequestDto updateRequestDto) {
+        Member member = memberRepository.findByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("회원이 존재하지 않습니다."));
+
+        if (!passwordEncoder.matches(updateRequestDto.getPassword(), member.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        boolean hasSpecificity = updateRequestDto.getSpecificity_disease() != null
+                && !updateRequestDto.getSpecificity_disease().isEmpty();
+        boolean hasNewPassword = updateRequestDto.getNew_password() != null
+                && !updateRequestDto.getNew_password().isEmpty();
+
+        if (!hasSpecificity && !hasNewPassword) {
+            throw new IllegalArgumentException("변경할 항목이 없습니다.");
+        }
+
+        if (hasSpecificity) {
+            member.changeSpecificityDisease(updateRequestDto.getSpecificity_disease());
+        }
+
+        if (hasNewPassword) {
+            PasswordPolicyValidator.validate(updateRequestDto.getNew_password());
+            if (passwordEncoder.matches(updateRequestDto.getNew_password(), member.getPassword())) {
+                throw new IllegalArgumentException("이전 비밀번호와 같을 수 없습니다.");
+            }
+            member.changePassword(passwordEncoder.encode(updateRequestDto.getNew_password()));
+        }
+
+        return new MemberUpdateResponseDto(
+                member.getUserId(),
+                member.getSpecificity_disease()
+        );
+    }
+
+    @Override
+    @Transactional
+    public MemberDeleteResponseDto deleteMember(String userId, MemberDeleteRequestDto deleteRequestDto) {
+        Member member = memberRepository.findByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("회원이 존재하지 않습니다."));
+
+        if (!passwordEncoder.matches(deleteRequestDto.getPassword(), member.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        memberRepository.delete(member);
+
+        return new MemberDeleteResponseDto("회원 삭제 완료");
     }
 }

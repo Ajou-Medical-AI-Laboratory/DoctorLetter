@@ -1,15 +1,14 @@
 package Doctor_Letter.Doctor_Letter.member.service;
 
-import Doctor_Letter.Doctor_Letter.member.dto.MemberCreateRequestDto;
-import Doctor_Letter.Doctor_Letter.member.dto.MemberCreateResponseDto;
-import Doctor_Letter.Doctor_Letter.member.dto.MemberUpdateRequestDto;
-import Doctor_Letter.Doctor_Letter.member.dto.MemberUpdateResponseDto;
+import Doctor_Letter.Doctor_Letter.member.dto.*;
 
 public interface MemberService {
 
     MemberCreateResponseDto createMember(MemberCreateRequestDto createRequestDto);
 
-    MemberUpdateResponseDto updateResponseDto(MemberUpdateRequestDto updateRequestDto);
+    FindMemberResponseDto getMember(String userId);
 
-    MemberDeleteResponseDto deleteMember(MemberDeleteRequestDto deleteRequestDto);
+    MemberUpdateResponseDto updateResponseDto(String userId, MemberUpdateRequestDto updateRequestDto);
+
+    MemberDeleteResponseDto deleteMember(String userId, MemberDeleteRequestDto deleteRequestDto);
 }
