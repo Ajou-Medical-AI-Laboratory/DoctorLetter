@@ -13,7 +13,8 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Member {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String userId;
@@ -31,5 +32,16 @@ public class Member {
         this.name = name;
         this.age = age;
         this.specificity_disease = specificity_disease;
+    }
+
+    public void changeSpecificityDisease(String specificity_disease) {
+        this.specificity_disease = specificity_disease;
+    }
+
+    public void changePassword(String encodedPassword) {
+        if (encodedPassword == null || encodedPassword.isEmpty()) {
+            throw new IllegalArgumentException("새로운 비밀번호는 null이거나 빈 문자열일 수 없습니다.");
+        }
+        this.password = encodedPassword;
     }
 }
