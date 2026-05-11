@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Eye, EyeOff, Fingerprint, Lock, Mail } from 'lucide-react';
+import { loginApi } from '../api/auth';
+import { useAuth } from '../auth/AuthContext';
 
 interface LoginProps {
   onLogin: () => void;
@@ -7,6 +9,7 @@ interface LoginProps {
 }
 
 export function Login({ onLogin, onSignup }: LoginProps) {
+  const { setTokens } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -14,10 +17,22 @@ export function Login({ onLogin, onSignup }: LoginProps) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
+    if (!email || !password) {
+      setError('이메일과 비밀번호를 입력해주세요.');
+      return;
+    }
     setError('');
     setLoading(true);
-    setTimeout(() => { setLoading(false); onLogin(); }, 500);
+    try {
+      const tokens = await loginApi(email, password);
+      setTokens(tokens.accessToken, tokens.refreshToken);
+      onLogin();
+    } catch (e: any) {
+      setError(e?.message || '로그인에 실패했습니다.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleBiometricLogin = () => {

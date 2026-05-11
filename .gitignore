@@ -48,3 +48,10 @@ out/
 
 # === OMC tooling (local state, do not track) ===
 .omc/
+
+# === Secrets / local config (do not track) ===
+# 실제 값 파일은 트래킹하지 않고 application.properties.example만 커밋합니다.
+src/main/resources/application.properties
+.env
+.env.local
+.env.*.local
