@@ -1,0 +1,9 @@
+{
+  "appId": "kr.doctorletter.app",
+  "appName": "닥터레터",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https",
+    "cleartext": true
+  }
+}
